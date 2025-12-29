@@ -18,6 +18,13 @@ public class Flower : MonoBehaviour
     float bloom_stag;
     float animation_time = 0;
 
+    [Header("Random")]
+    [Space(5)]
+    [Range(0f,180f)]
+    public float random_angle = 25f;
+    [Range(0f,0.5f)]
+    public float random_scale = 0.15f;
+
     void Start()
     {
         bloomCtrl = bloomController.GetComponent<BloomController>();
@@ -25,7 +32,9 @@ public class Flower : MonoBehaviour
         animation_time = flower_animation.length;
         bloom_stag = 0;
 
-        // transform.Rotate(0,Random.Range(0f,360f),0);
+        transform.Rotate(0,Random.Range(random_angle,-random_angle),0);
+        float _rand_scale = Random.Range(1f-random_scale,1f+random_scale);
+        transform.GetChild(0).localScale = Vector3.one * _rand_scale;
     }
 
     void Update()
@@ -81,7 +90,7 @@ public class Flower : MonoBehaviour
 
         if (!is_wither)
         {
-            if (animation_time > flower_animation.length / 3 * 2)
+            if (animation_time > flower_animation.length / 3 )
             {
                 bloomCtrl.OnWither.Invoke();
                 is_wither = true;
